@@ -1,0 +1,174 @@
+---
+// Case study: the Lift-STL free-week funnel. Facts come from src/data/lift-stl.ts
+// and are verifiable on the public pages they were taken from. Results numbers
+// and Eric's quote render only once they exist in that file.
+import SiteLayout from '../layouts/SiteLayout.astro';
+import AuditCta from '../components/AuditCta.astro';
+import { LIFT } from '../data/lift-stl';
+
+const hasResults = Object.values(LIFT.results).some(Boolean);
+---
+
+<SiteLayout
+  title="Lift-STL: a free-week funnel for a Brentwood strength gym · ZeisWorks"
+  description="How ZeisWorks built join.lift-stl.com for Eric Humes's Lift-STL: a free 7-day pass page, instant coach follow-up, a post-claim survey, and tracking that ties ad spend to real claims."
+  navTone="light"
+>
+  <!-- ═══════ HERO ═══════ -->
+  <section class="section anchor" style="padding-top: clamp(7rem, 13vw, 10rem);">
+    <div class="wrap">
+      <p class="t-eyebrow mb-5">Case study · {LIFT.city}</p>
+      <h1 class="t-h1 mb-8 measure-wide">A front door that matches the floor.</h1>
+      <div class="grid lg:grid-cols-[1fr_1fr] gap-10 items-end">
+        <p class="t-lede t-muted measure m-0">
+          {LIFT.owner} opened {LIFT.name} in {LIFT.founded} on an SBA loan and a plan. The gym earned a {LIFT.rating}-star Google rating on
+          {LIFT.reviewCount} reviews. The website was a template. The free pass was a form that emailed someone. We rebuilt the whole path from ad to handshake.
+        </p>
+        <div class="flex flex-wrap gap-2 lg:justify-end">
+          <a href={LIFT.funnelUrl} target="_blank" rel="noopener" class="chip chip-red">join.lift-stl.com ↗</a>
+          <span class="chip">24/7 strength gym</span>
+          <span class="chip">1 location</span>
+          <span class="chip">Est. {LIFT.founded}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ DESKTOP ═══════ -->
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="img-frame shadow-xl">
+        <img src="/media/lift-desktop-hero.webp" alt="The Lift-STL free 7-day pass page on desktop: 'Train more. Deal with less.' with the claim button and a photo of the gym floor." width="1600" height="1000" loading="eager" />
+      </div>
+      <p class="t-mono text-xs t-muted mt-3">The live page, September 2026. Screenshot, not a mockup.</p>
+    </div>
+  </section>
+
+  <!-- ═══════ FLOW ═══════ -->
+  <section class="section rule-t">
+    <div class="wrap grid lg:grid-cols-[1fr_1fr] gap-12 lg:gap-16 items-start">
+      <div>
+        <p class="t-eyebrow mb-4">What a prospect experiences</p>
+        <h2 class="t-h2 mb-10">Six steps, in the order they happen.</h2>
+        <ol class="flow-list">
+          {LIFT.flow.map((f, i) => (
+            <li class="flow-item">
+              <span class="t-mono flow-n">0{i + 1}</span>
+              <div>
+                <h3 class="t-h3 mb-1">{f.step}</h3>
+                <p class="text-[0.95rem] t-muted leading-relaxed m-0">{f.detail}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div class="grid grid-cols-2 gap-4 lg:sticky lg:top-24">
+        <figure class="m-0 phone-sm">
+          <img src="/media/lift-mobile-hero.webp" alt="The Lift-STL page on a phone: headline, address, and the claim button above the fold." width="780" height="1688" loading="lazy" />
+          <figcaption class="t-mono text-xs t-muted mt-2">Above the fold on a phone</figcaption>
+        </figure>
+        <figure class="m-0 phone-sm">
+          <div class="phone-sm-scroll">
+            <img src="/media/lift-mobile-full.webp" alt="The full Lift-STL page on a phone, scrolling through stats, features, reviews, FAQ, and the form." width="780" height="14388" loading="lazy" />
+          </div>
+          <figcaption class="t-mono text-xs t-muted mt-2">The whole page, scrolling</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ FACTS + STACK ═══════ -->
+  <section class="section on-dark">
+    <div class="wrap">
+      <div class="grid md:grid-cols-3 gap-5 mb-12">
+        {LIFT.facts.map((f) => (
+          <div class="card-dark">
+            <p class="t-num mb-2">{f.value}</p>
+            <p class="t-mono text-xs uppercase tracking-widest t-muted m-0">{f.label}</p>
+          </div>
+        ))}
+      </div>
+      <div class="grid lg:grid-cols-2 gap-12">
+        <div>
+          <p class="t-eyebrow mb-4">Under the hood</p>
+          <h2 class="t-h2 mb-6">Nothing rented.</h2>
+          <p class="t-muted mb-6 measure">Eric owns the subdomain, the page, the pixel, and every lead. If ZeisWorks disappeared tomorrow, the page would keep working.</p>
+          <ul class="check-list">{LIFT.stack.map((s) => <li>{s}</li>)}</ul>
+        </div>
+        <div>
+          <p class="t-eyebrow mb-4">The numbers</p>
+          {hasResults ? (
+            <dl class="grid grid-cols-2 gap-5">
+              {LIFT.results.leads && <div class="card-dark"><dt class="t-mono text-xs uppercase tracking-widest t-muted">Leads</dt><dd class="t-num m-0">{LIFT.results.leads}</dd></div>}
+              {LIFT.results.showRate && <div class="card-dark"><dt class="t-mono text-xs uppercase tracking-widest t-muted">Show rate</dt><dd class="t-num m-0">{LIFT.results.showRate}</dd></div>}
+              {LIFT.results.members && <div class="card-dark"><dt class="t-mono text-xs uppercase tracking-widest t-muted">Members</dt><dd class="t-num m-0">{LIFT.results.members}</dd></div>}
+              {LIFT.results.costPerMember && <div class="card-dark"><dt class="t-mono text-xs uppercase tracking-widest t-muted">Cost per member</dt><dd class="t-num m-0">{LIFT.results.costPerMember}</dd></div>}
+            </dl>
+          ) : (
+            <div class="card-dark" style="border-style: dashed;">
+              <p class="mb-3"><span class="confirm">confirm</span></p>
+              <p class="t-muted text-[0.95rem] m-0">
+                Leads, show rate, members, and cost per member will appear here once Jack signs off on numbers he can defend on a call.
+                Until then this page shows what was built, not what it produced.
+              </p>
+            </div>
+          )}
+          {LIFT.quote ? (
+            <blockquote class="card-dark mt-5">
+              <p class="t-lede mb-4">“{LIFT.quote.text}”</p>
+              <footer class="t-mono text-xs t-muted">{LIFT.quote.name} · {LIFT.quote.title}</footer>
+            </blockquote>
+          ) : (
+            <div class="card-dark mt-5" style="border-style: dashed;">
+              <p class="mb-2"><span class="confirm">confirm</span></p>
+              <p class="t-muted text-[0.95rem] m-0">Eric's quote goes here, in his words, with his permission.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ REVIEWS ON THE PAGE ═══════ -->
+  <section class="section">
+    <div class="wrap grid lg:grid-cols-[0.9fr_1.1fr] gap-12 items-center">
+      <div>
+        <p class="t-eyebrow mb-4">Why the page works</p>
+        <h2 class="t-h2 mb-6">The gym already had the proof. It just wasn't on the page.</h2>
+        <p class="t-muted mb-4">Lift had {LIFT.reviewCount} Google reviews and none of them were doing any work. Six of the best now sit above the form, with names, so a stranger can read what members say before they hand over a phone number.</p>
+        <p class="t-muted">The page answers the questions a free trial always raises: is it really free, do you need my card, who is eligible, what happens after. Nobody has to call to find out.</p>
+      </div>
+      <div class="img-frame">
+        <img src="/media/gym-owner.webp" alt="An independent gym owner standing on his gym floor at dawn." width="1200" height="1600" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ CTA ═══════ -->
+  <section class="section on-dark">
+    <div class="wrap">
+      <p class="t-eyebrow mb-4">Your gym</p>
+      <h2 class="t-h1 mb-6">Want this on your door?</h2>
+      <p class="t-lede t-muted mb-9 measure">Four questions about your gym. A free-week plan back: the offer, the page, the follow-up, and what a member should cost you.</p>
+      <AuditCta location="footer" label="Get my free-week plan" class="btn btn-red" />
+    </div>
+  </section>
+</SiteLayout>
+
+<style is:global>
+  .flow-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.4rem; }
+  .flow-item { display: grid; grid-template-columns: 3rem 1fr; gap: 0.5rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .flow-n { color: var(--red); font-size: 0.85rem; padding-top: 0.3rem; }
+  .img-frame { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  .img-frame img { display: block; width: 100%; height: auto; }
+  .check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; }
+  .check-list li { display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.4rem; font-size: 0.98rem; }
+  .check-list li::before { content: '✓'; color: var(--red); font-family: var(--mono); font-weight: 600; }
+  .phone-sm img { display: block; width: 100%; height: auto; }
+  .phone-sm > img, .phone-sm-scroll { border-radius: 22px; border: 6px solid #0a0a0b; background: #0a0a0b; overflow: hidden; aspect-ratio: 9 / 19.5; }
+  .phone-sm > img { object-fit: cover; object-position: top; }
+  .phone-sm-scroll img { animation: phone-scroll-sm 40s ease-in-out infinite alternate; }
+  @keyframes phone-scroll-sm { 0%, 6% { transform: translateY(0); } 100% { transform: translateY(calc(-100% + 100cqh)); } }
+  .phone-sm-scroll { container-type: size; }
+  @media (prefers-reduced-motion: reduce) { .phone-sm-scroll img { animation: none !important; } }
+</style>

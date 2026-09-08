@@ -1,0 +1,397 @@
+---
+// Site shell for the gym-owner rebuild: sports-editorial design system,
+// one nav, one footer, analytics, and the reduced-motion-gated motion layer.
+import AuditCta from '../components/AuditCta.astro';
+import Logo from '../components/Logo.astro';
+import MotionScripts from '../components/MotionScripts.astro';
+import { CALENDLY_URL } from '../config';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  navLinks?: { label: string; href: string }[];
+  ctaLabel?: string;
+  /** Nav starts transparent over a dark hero (default) or solid over a light one. */
+  navTone?: 'dark' | 'light';
+}
+
+const {
+  title,
+  description,
+  ogImage = '/og.png',
+  navLinks = [
+    { label: 'The system', href: '/#system' },
+    { label: 'Lift-STL', href: '/lift-stl/' },
+    { label: 'Pricing', href: '/#pricing' },
+    { label: 'About', href: '/#founder' },
+  ],
+  ctaLabel = 'Get my free-week plan',
+  navTone = 'dark',
+} = Astro.props;
+
+const siteUrl = 'https://zeisworks.com';
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const resolvedOgImage = new URL(ogImage, siteUrl).href;
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'ZeisWorks',
+  url: siteUrl,
+  logo: `${siteUrl}/favicon.svg`,
+  description:
+    'ZeisWorks builds free-week lead funnels for independent gyms: the landing page, the ads, the instant follow-up, and the tracking, so a free trial turns into a paying member.',
+  email: 'jack@zeisworks.com',
+  areaServed: 'US',
+  founder: {
+    '@type': 'Person',
+    name: 'Jack Zeis',
+    url: siteUrl,
+    sameAs: ['https://www.linkedin.com/in/jack-zeis/', 'https://www.upwork.com/freelancers/~01ddd112c03a2e1428'],
+  },
+  address: { '@type': 'PostalAddress', addressLocality: 'Golden', addressRegion: 'CO', addressCountry: 'US' },
+};
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0E0E10" />
+    <meta name="description" content={description} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:site_name" content="ZeisWorks" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="256x256" href="/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
+    <slot name="head" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F05WB9RWJT"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-F05WB9RWJT');
+    </script>
+    <!-- Meta Pixel -->
+    <script is:inline>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1416784273550486');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1416784273550486&ev=PageView&noscript=1" /></noscript>
+
+    <style is:global>
+      :root {
+        --ink: #0E0E10;
+        --ink-2: #17171B;
+        --ink-3: #232329;
+        --paper: #F4F2ED;
+        --paper-2: #FFFFFF;
+        --paper-3: #EAE7E0;
+        --line: rgba(14, 14, 16, 0.12);
+        --line-dark: rgba(244, 242, 237, 0.14);
+        --muted: #5C5C64;
+        --muted-dark: rgba(244, 242, 237, 0.68);
+        --red: #E04530;
+        --red-deep: #B7301E;
+        --red-soft: #F5B3A7;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --display: 'Archivo', system-ui, sans-serif;
+        --mono: 'JetBrains Mono', ui-monospace, monospace;
+      }
+      html { -webkit-text-size-adjust: 100%; }
+      body.site {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--display);
+        font-variation-settings: 'wdth' 100;
+        font-size: 1.0625rem;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      .site ::selection { background: rgba(224, 69, 48, 0.22); }
+
+      /* ── Type scale ── */
+      .t-display, .t-h1, .t-h2 {
+        font-family: var(--display);
+        font-variation-settings: 'wdth' 78;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: -0.005em;
+        line-height: 0.92;
+        text-wrap: balance;
+      }
+      .t-display { font-size: clamp(2.9rem, 9.5vw, 8.4rem); }
+      .t-h1 { font-size: clamp(2.5rem, 7vw, 6rem); }
+      .t-h2 { font-size: clamp(2.1rem, 4.6vw, 3.9rem); line-height: 0.96; }
+      .t-h3 {
+        font-family: var(--display);
+        font-variation-settings: 'wdth' 90;
+        font-weight: 700;
+        font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+      }
+      .t-lede { font-size: clamp(1.1rem, 1.7vw, 1.3rem); line-height: 1.5; text-wrap: pretty; }
+      .t-eyebrow {
+        font-family: var(--mono);
+        font-weight: 500;
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--red);
+      }
+      .t-mono { font-family: var(--mono); }
+      .t-num {
+        font-family: var(--display);
+        font-variation-settings: 'wdth' 70;
+        font-weight: 800;
+        font-size: clamp(2.6rem, 5vw, 4.4rem);
+        line-height: 1;
+        letter-spacing: -0.01em;
+      }
+      .t-muted { color: var(--muted); }
+      .on-dark { background: var(--ink); color: var(--paper); }
+      .on-dark .t-muted { color: var(--muted-dark); }
+      .on-dark .t-eyebrow { color: var(--red-soft); }
+
+      /* ── Layout ── */
+      .wrap { max-width: 1180px; margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 2.5rem); }
+      .section { padding-block: clamp(4.5rem, 9vw, 8.5rem); }
+      .section-tight { padding-block: clamp(3rem, 6vw, 5rem); }
+      .measure { max-width: 42rem; }
+      .measure-wide { max-width: 56rem; }
+      .rule-t { border-top: 1px solid var(--line); }
+      .on-dark .rule-t { border-top-color: var(--line-dark); }
+      .anchor { scroll-margin-top: 5rem; }
+
+      /* ── Buttons ── */
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+        font-family: var(--display); font-variation-settings: 'wdth' 90; font-weight: 700;
+        font-size: 0.95rem; letter-spacing: 0.02em; text-transform: uppercase;
+        padding: 0.95rem 1.5rem; border-radius: 999px; min-height: 48px;
+        text-decoration: none; cursor: pointer; border: 1px solid transparent;
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.35s var(--ease);
+      }
+      .btn-red { background: var(--red); color: #fff; }
+      .btn-red:hover { background: var(--red-deep); }
+      .btn-ghost { background: transparent; color: var(--ink); border-color: rgba(14, 14, 16, 0.25); }
+      .btn-ghost:hover { border-color: var(--ink); }
+      .on-dark .btn-ghost { color: var(--paper); border-color: rgba(244, 242, 237, 0.3); }
+      .on-dark .btn-ghost:hover { border-color: var(--paper); }
+      .btn-paper { background: var(--paper); color: var(--ink); }
+      .btn-paper:hover { background: #fff; }
+      .btn-sm { padding: 0.6rem 1.05rem; min-height: 40px; font-size: 0.82rem; }
+
+      /* ── Surfaces ── */
+      .card { background: var(--paper-2); border: 1px solid var(--line); border-radius: 14px; padding: 1.6rem; }
+      .card-dark { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--line-dark); border-radius: 14px; padding: 1.6rem; }
+      .chip {
+        display: inline-flex; align-items: center; gap: 0.45rem;
+        font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+        padding: 0.4rem 0.75rem; border-radius: 999px; border: 1px solid var(--line);
+      }
+      .on-dark .chip { border-color: var(--line-dark); color: var(--paper); }
+      .chip-red { border-color: rgba(224, 69, 48, 0.4); color: var(--red); }
+      .on-dark .chip-red { color: var(--red-soft); }
+      /* Facts still awaiting Jack's confirmation render with this tag. */
+      .confirm {
+        font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase;
+        background: #FFE9B8; color: #6B4600; border-radius: 4px; padding: 0.15rem 0.4rem; vertical-align: middle;
+      }
+
+      .site a:focus-visible, .site button:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 6px; }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .site *, .site *::before, .site *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+      }
+    </style>
+  </head>
+
+  <body class="site min-h-screen flex flex-col">
+    <div id="top-sentinel" aria-hidden="true" style="position:absolute;top:0;height:8px;width:1px;"></div>
+
+    <header id="nav" class={`fixed top-0 inset-x-0 z-50 nav-${navTone}`}>
+      <div class="wrap h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5" aria-label="ZeisWorks home">
+          <Logo class="w-8 h-8 rounded-[7px]" />
+          <span class="nav-brand">zeisWorks<span style="color: var(--red);">.</span></span>
+        </a>
+        <nav class="hidden md:flex items-center gap-7 nav-links" aria-label="Primary">
+          {navLinks.map(({ label, href }) => <a href={href}>{label}</a>)}
+          <AuditCta location="nav" label={ctaLabel} class="btn btn-red btn-sm" />
+        </nav>
+        <div class="md:hidden flex items-center gap-2">
+          <AuditCta location="nav" label="Free plan" class="btn btn-red btn-sm" />
+          <button id="menu-btn" class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 z-40 on-dark flex-col justify-center px-8 hidden">
+      <nav class="flex flex-col gap-1 text-center" aria-label="Mobile">
+        {navLinks.map(({ label, href }) => <a href={href} class="mobile-link t-h2 py-3">{label}</a>)}
+        <AuditCta location="nav" label={ctaLabel} class="mobile-link btn btn-red mt-8 self-center" />
+      </nav>
+    </div>
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="on-dark" style="border-top: 1px solid var(--line-dark);">
+      <div class="wrap py-14">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          <div class="lg:col-span-2">
+            <a href="/" class="flex items-center gap-2.5" aria-label="ZeisWorks home">
+              <Logo class="w-8 h-8 rounded-[7px]" />
+              <span class="nav-brand">zeisWorks<span style="color: var(--red);">.</span></span>
+            </a>
+            <p class="mt-4 text-sm t-muted max-w-[34ch]">
+              Free-week funnels for independent gyms. The page, the ads, the follow-up, and the numbers, built by one person who answers the phone.
+            </p>
+          </div>
+          <div>
+            <p class="t-eyebrow mb-3">Site</p>
+            <ul class="space-y-2 text-sm">
+              <li><a href="/#system" class="hover:text-white">The system</a></li>
+              <li><a href="/lift-stl/" class="hover:text-white">Lift-STL case study</a></li>
+              <li><a href="/#pricing" class="hover:text-white">Pricing</a></li>
+              <li><a href="/#founder" class="hover:text-white">About Jack</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="t-eyebrow mb-3">Contact</p>
+            <ul class="space-y-2 text-sm">
+              <li><a href="mailto:jack@zeisworks.com" class="hover:text-white">jack@zeisworks.com</a></li>
+              <li><a href={CALENDLY_URL} class="hover:text-white">Book 15 minutes</a></li>
+              <li><a href="/start/" class="hover:text-white">Get a free-week plan</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-12 pt-6 flex flex-col sm:flex-row justify-between gap-3 text-xs t-muted" style="border-top: 1px solid var(--line-dark);">
+          <p>&copy; {new Date().getFullYear()} ZeisWorks, a High Range Living LLC company. Golden, Colorado.</p>
+          <p class="t-mono flex gap-3"><a href="/privacy/">Privacy</a><span aria-hidden="true">&middot;</span><a href="/terms/">Terms</a></p>
+        </div>
+      </div>
+    </footer>
+
+    <MotionScripts reveal={true} />
+
+    <script is:inline>
+      (function () {
+        var nav = document.getElementById('nav');
+        var sentinel = document.getElementById('top-sentinel');
+        if (nav && sentinel && 'IntersectionObserver' in window) {
+          new IntersectionObserver(function (e) { nav.classList.toggle('nav-solid', !e[0].isIntersecting); }).observe(sentinel);
+        } else if (nav) nav.classList.add('nav-solid');
+
+        var btn = document.getElementById('menu-btn');
+        var menu = document.getElementById('mobile-menu');
+        function close() {
+          if (!menu || !btn) return;
+          menu.classList.add('hidden'); menu.classList.remove('flex');
+          btn.setAttribute('aria-expanded', 'false'); btn.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+        if (btn && menu) {
+          btn.addEventListener('click', function () {
+            if (!menu.classList.contains('hidden')) return close();
+            menu.classList.remove('hidden'); menu.classList.add('flex');
+            btn.setAttribute('aria-expanded', 'true'); btn.classList.add('open');
+            document.body.style.overflow = 'hidden';
+          });
+          menu.querySelectorAll('.mobile-link').forEach(function (l) { l.addEventListener('click', close); });
+          document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+        }
+      })();
+    </script>
+
+    <!-- CTA tracking + UTM passthrough -->
+    <script is:inline>
+      (function () {
+        var KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+        var stored = {};
+        try { stored = JSON.parse(sessionStorage.getItem('zw_utm') || '{}'); } catch (e) {}
+        var p = new URLSearchParams(window.location.search);
+        KEYS.forEach(function (k) { var v = p.get(k); if (v) stored[k] = v; });
+        try { sessionStorage.setItem('zw_utm', JSON.stringify(stored)); } catch (e) {}
+        if (Object.keys(stored).length) {
+          document.querySelectorAll('a[data-audit-cta]').forEach(function (a) {
+            try { var u = new URL(a.getAttribute('href'), location.origin); KEYS.forEach(function (k) { if (stored[k]) u.searchParams.set(k, stored[k]); }); a.setAttribute('href', u.href); } catch (e) {}
+          });
+        }
+        document.addEventListener('click', function (e) {
+          var a = e.target && e.target.closest ? e.target.closest('a[data-audit-cta]') : null;
+          if (!a) return;
+          var loc = a.getAttribute('data-cta-location') || 'unknown';
+          if (typeof fbq === 'function') fbq('trackCustom', 'PlanStart', { cta_location: loc, page_path: location.pathname });
+          if (typeof gtag === 'function') gtag('event', 'plan_start', { cta_location: loc, page_path: location.pathname, transport_type: 'beacon' });
+        }, true);
+      })();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  #nav { transition: background-color 0.3s, border-color 0.3s; background: transparent; }
+  .nav-brand { font-family: var(--display); font-variation-settings: 'wdth' 88; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em; }
+  .nav-links a { font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+  .nav-dark { color: var(--paper); }
+  .nav-dark .nav-links a { color: rgba(244, 242, 237, 0.8); }
+  .nav-dark .nav-links a:hover { color: #fff; }
+  .nav-light { color: var(--ink); }
+  .nav-light .nav-links a { color: rgba(14, 14, 16, 0.75); }
+  .nav-light .nav-links a:hover, .nav-solid .nav-links a:hover { color: var(--red); }
+  #nav.nav-solid { background: rgba(244, 242, 237, 0.94); border-bottom: 1px solid var(--line); color: var(--ink); backdrop-filter: saturate(140%) blur(10px); }
+  #nav.nav-solid .nav-links a { color: rgba(14, 14, 16, 0.75); }
+  .menu-btn { display: flex; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; margin-right: -8px; background: none; border: 0; cursor: pointer; }
+  .menu-btn span { display: block; width: 24px; height: 2px; background: currentColor; border-radius: 2px; margin-inline: auto; transition: transform 0.25s, opacity 0.25s; }
+  .menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-btn.open span:nth-child(2) { opacity: 0; }
+  .menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  #mobile-menu .mobile-link { color: var(--paper); text-decoration: none; }
+  #mobile-menu .mobile-link:hover { color: var(--red-soft); }
+</style>
