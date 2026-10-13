@@ -1,5 +1,7 @@
 ---
 import LandingLayout from '../layouts/LandingLayout.astro';
+import { Image } from 'astro:assets';
+import heroFlow from '../assets/hero-flow.png';
 import AuditCta from '../components/AuditCta.astro';
 import FileExplorer from '../components/FileExplorer.astro';
 import QueryDemo from '../components/QueryDemo.astro';
@@ -16,9 +18,7 @@ const navLinks = [
   { label: 'Pricing', href: '#pricing' },
 ];
 
-const knowledgeInputs = ['Owner judgment', 'Senior estimator', 'Pricing sheets', 'Slack threads', 'CRM notes', 'SOP', 'Email history', 'Sales playbook', 'Field notes'];
 const knowledgeFiles = ['pricing.md', 'estimating.md', 'customers.md', 'escalation.md', 'brand-voice.md', 'policies.md'];
-const aiOutputs = ['Answer with sources', 'Price with rules', 'Draft proposals', 'Train new hires', 'Research accounts', 'Qualify leads', 'Support customers', 'Guide operations'];
 
 const problems = [
   { title: 'Everything runs through one person', body: 'The owner, senior estimator, or operations lead keeps getting interrupted because the real answers live with them.' },
@@ -105,29 +105,23 @@ const notFit = ['You just need a simple chatbot', 'Your business processes are e
           You own the knowledge. You own the systems. No proprietary AI platform required.
         </p>
       </div>
-      <!-- Knowledge flow: scattered inputs → structured files → capabilities -->
-      <div class="zw-flow zw-reveal" data-anim="hero" aria-label="Scattered company knowledge becomes structured files, which power AI capabilities.">
-        <div>
-          <p class="zw-flow-label zw-mono">where it lives today</p>
-          <ul class="zw-flow-chips">{knowledgeInputs.map((x, i) => <li style={`--i:${i}`}>{x}</li>)}</ul>
-        </div>
-        <div class="zw-flow-link" aria-hidden="true"></div>
-        <div>
-          <p class="zw-flow-label zw-mono">structured, readable files</p>
-          <figure class="zw-knowledge zw-mono m-0">
-            <div class="zw-knowledge-bar">
-              <span class="zw-dot"></span><span class="zw-dot"></span><span class="zw-dot"></span>
-              <span class="ml-3 text-[0.72rem] zw-knowledge-name">your-company/</span>
-            </div>
-            <ul class="zw-flow-files">{knowledgeFiles.map((f, i) => <li class="zw-kline" style={`--i:${i}`}>{f}</li>)}</ul>
-          </figure>
-        </div>
-        <div class="zw-flow-link" aria-hidden="true"></div>
-        <div>
-          <p class="zw-flow-label zw-mono">what your AI can now do</p>
-          <ul class="zw-flow-caps">{aiOutputs.map((x, i) => <li style={`--i:${i}`}>{x}</li>)}</ul>
-        </div>
-      </div>
+      <!-- Knowledge flow illustration: scattered inputs → plain files → capabilities -->
+      <figure class="zw-hero-art zw-reveal m-0" data-anim="hero">
+        <Image
+          src={heroFlow}
+          alt="Sticky notes, torn pages, a spreadsheet and a chat bubble funnel into a tidy stack of plain documents, and three arrows lead out of the stack."
+          widths={[640, 960, 1280, 1920]}
+          sizes="(min-width: 1024px) 560px, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          class="zw-hero-art-img"
+        />
+        <figcaption class="zw-hero-art-caption zw-mono" aria-hidden="true">
+          <span style="--i:0">where it lives today</span>
+          <span style="--i:1">plain files you own</span>
+          <span style="--i:2">what your AI can now do</span>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
@@ -400,41 +394,39 @@ const notFit = ['You just need a simple chatbot', 'Your business processes are e
 </LandingLayout>
 
 <style is:global>
-  /* ── Knowledge flow (hero): inputs → files → capabilities ── */
-  .zw-flow { display: grid; gap: 1.1rem; align-items: center; }
-  @media (min-width: 640px) {
-    .zw-flow { grid-template-columns: 1fr 2rem 1.1fr 2rem 1fr; }
+  /* ── Hero illustration: scattered inputs → plain files → capabilities ── */
+  .zw-hero-art { display: grid; gap: 0.6rem; }
+  .zw-hero-art-img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
   }
-  .zw-flow-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--zw-muted); margin: 0 0 0.5rem; }
-  .zw-flow-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
-  .zw-flow-chips li {
-    font-size: 0.72rem;
+  .zw-hero-art-caption {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0.5rem;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
     color: var(--zw-muted);
-    border: 1px dashed var(--zw-border);
-    border-radius: 999px;
-    padding: 0.2rem 0.55rem;
+    padding-inline: 0.25rem;
   }
-  .zw-flow-chips li:nth-child(odd) { transform: rotate(-1.1deg); }
-  .zw-flow-chips li:nth-child(3n) { transform: rotate(0.9deg); }
-  .zw-flow-files { margin: 0; padding: 0.8rem 1.1rem; list-style: none; font-size: 0.8rem; line-height: 1.9; color: var(--zw-ink); }
-  .zw-flow-caps { margin: 0; padding: 0; list-style: none; font-size: 0.78rem; color: var(--zw-ink); }
-  .zw-flow-caps li { padding: 0.18rem 0; }
-  .zw-flow-caps li::before { content: '→ '; color: var(--zw-teal); font-family: 'DM Mono', ui-monospace, monospace; }
-  .zw-flow-link { width: 100%; height: 2px; background: linear-gradient(90deg, var(--zw-border), var(--zw-teal)); border-radius: 1px; }
-  @media (max-width: 639px) {
-    .zw-flow-link { width: 2px; height: 2rem; margin-inline: auto; background: linear-gradient(var(--zw-border), var(--zw-teal)); }
+  .zw-hero-art-caption span:nth-child(2) { text-align: center; }
+  .zw-hero-art-caption span:nth-child(3) { text-align: right; }
+  html.zw-anim [data-anim="hero"] .zw-hero-art-img {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.7s var(--zw-ease), transform 0.7s var(--zw-ease);
   }
-  html.zw-anim [data-anim="hero"] .zw-flow-chips li,
-  html.zw-anim [data-anim="hero"] .zw-flow-files li,
-  html.zw-anim [data-anim="hero"] .zw-flow-caps li {
+  html.zw-anim [data-anim="hero"] .zw-hero-art-caption span {
     opacity: 0;
     transition: opacity 0.5s var(--zw-ease);
-    transition-delay: calc(var(--i, 0) * 70ms);
+    transition-delay: calc(0.45s + var(--i, 0) * 120ms);
   }
-  html.zw-anim [data-anim="hero"].zw-play .zw-flow-chips li,
-  html.zw-anim [data-anim="hero"].zw-play .zw-flow-files li,
-  html.zw-anim [data-anim="hero"].zw-play .zw-flow-caps li { opacity: 1; }
-
+  html.zw-anim [data-anim="hero"].zw-play .zw-hero-art-img { opacity: 1; transform: none; }
+  html.zw-anim [data-anim="hero"].zw-play .zw-hero-art-caption span { opacity: 1; }
+  /* Shared with the "How it works" file figure */
+  .zw-flow-files { margin: 0; padding: 0.8rem 1.1rem; list-style: none; font-size: 0.8rem; line-height: 1.9; color: var(--zw-ink); }
   /* ── Core-knowledge chip row ── */
   .zw-chiprow { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
   .zw-chiprow li {
