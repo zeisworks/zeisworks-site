@@ -39,7 +39,7 @@ const steps = [
 
 <FunnelLayout
   title="Get started · ZeisWorks"
-  description="Answer four quick questions and see what your VIK would map first — so AI can finally run on how your business actually works. Free, no obligation."
+  description="Answer four quick questions and Jack replies within a business day with where a VIK would start for your firm. Free, no obligation."
   ogImage="/og.png"
 >
   <main class="funnel" data-funnel>
@@ -71,9 +71,9 @@ const steps = [
       ))}
 
       <!-- Capture -->
-      <section class="screen" data-screen={steps.length} role="group" aria-label="Where should we send your VIK outline?" hidden>
+      <section class="screen" data-screen={steps.length} role="group" aria-label="Where should Jack reply?" hidden>
         <p class="screen-kicker zw-mono">Almost there</p>
-        <h1 class="screen-q">Where should we send your VIK outline?</h1>
+        <h1 class="screen-q">Where should Jack reply?</h1>
         <p class="screen-summary" data-summary></p>
         <form
           class="capture-form"
@@ -113,7 +113,7 @@ const steps = [
             <span class="field-label">Phone <span class="field-opt">(optional)</span></span>
             <input type="tel" name="phone" autocomplete="tel" placeholder="(555) 555-5555" />
           </label>
-          <button type="submit" class="cta cta-block" data-submit>Send my VIK outline</button>
+          <button type="submit" class="cta cta-block" data-submit>Send my answers</button>
           <p class="fineprint">Free. No obligation. We'll never share your details.</p>
         </form>
       </section>
@@ -122,16 +122,16 @@ const steps = [
       <section class="screen screen-center" data-screen={steps.length + 1} role="group" aria-label="Book a call" hidden>
         <div class="mark-ok" aria-hidden="true">✓</div>
         <h1 class="screen-q">You're in. Want to talk it through?</h1>
-        <p class="screen-sub">Your outline is on its way. The fastest next step is a free 15-minute intro call — we'll walk through what your VIK would map first.</p>
+        <p class="screen-sub">Jack reads every one of these himself and replies within a business day with where a VIK would start for you. The fastest next step is a free 15-minute intro call.</p>
         <a href={CALENDLY_URL} class="cta cta-block" data-book>Book a free intro call</a>
-        <button type="button" class="cta-text" data-done>No thanks, I'll wait for the email</button>
+        <button type="button" class="cta-text" data-done>No thanks, I'll wait for the reply</button>
       </section>
 
       <!-- Confirmation -->
       <section class="screen screen-center" data-screen={steps.length + 2} role="group" aria-label="All set" hidden>
         <div class="mark-ok" aria-hidden="true">✓</div>
         <h1 class="screen-q">You're all set.</h1>
-        <p class="screen-sub">Check your inbox — your VIK outline is on its way. We'll be in touch shortly.</p>
+        <p class="screen-sub">Your answers are in. Jack will reply within a business day.</p>
         <a href="/" class="cta-text">Back to zeisworks.com</a>
       </section>
     </div>
@@ -471,12 +471,12 @@ const steps = [
     .cta {
       display: inline-flex; align-items: center; justify-content: center;
       font: inherit; font-size: 1.05rem; font-weight: 600;
-      color: #fff; background: #E04530;
+      color: #fff; background: #C83A25;
       border: none; border-radius: 999px;
       padding: 15px 30px; cursor: pointer; text-decoration: none;
       transition: background 0.18s, transform 0.18s;
     }
-    .cta:hover { background: #C2410C; transform: translateY(-1px); }
+    .cta:hover { background: #A93409; transform: translateY(-1px); }
     .cta:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
     .cta-block { width: 100%; margin-top: 6px; }
     .cta:disabled { opacity: 0.6; cursor: default; transform: none; }

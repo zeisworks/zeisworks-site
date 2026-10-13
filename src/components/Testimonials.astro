@@ -30,7 +30,7 @@ const cardClass = tone === 'on-white' ? 'zw-quote-card zw-quote-card--cream' : '
     <div class="grid md:grid-cols-3 gap-5 mt-8">
       {TESTIMONIALS.map((t) => (
         <figure class={`${cardClass} zw-reveal flex flex-col`}>
-          <p class="zw-quote-stars" aria-label="5 stars">
+          <p class="zw-quote-stars" role="img" aria-label="5 stars">
             <span aria-hidden="true">★★★★★</span>
           </p>
           <blockquote class="zw-quote-text flex-1">{t.quote}</blockquote>

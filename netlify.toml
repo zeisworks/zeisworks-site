@@ -98,6 +98,33 @@
   to = "/"
   status = 301
 
+# Retired legacy marketing content (old local-marketing offer, removed 2026-10-12):
+# the guides library and the three vertical pages.
+[[redirects]]
+  from = "/guides"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/guides/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/tree-service-marketing"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/water-damage-marketing"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/wildfire-mitigation-marketing"
+  to = "/"
+  status = 301
+
 # ── Launched ──
 # The pre-launch placeholder force-redirect (and the asset passthroughs it
 # required) were removed at launch. Every route now serves the real site

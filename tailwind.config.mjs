@@ -18,11 +18,11 @@ export default {
         'ink-light': '#86868B',     // muted captions/meta
 
         // Azure — the single rationed accent (CTA + links).
-        rust: '#E04530',
-        'rust-bright': '#C2410C',
+        rust: '#C83A25',
+        'rust-bright': '#A93409',
         'rust-soft': '#F0A184',     // light azure for on-dark accents
-        orange: '#E04530',
-        'orange-bright': '#C2410C',
+        orange: '#C83A25',
+        'orange-bright': '#A93409',
 
         // Near-black "dark stage" for heroes / dark sections / footers.
         forest: '#1D1D1F',
@@ -35,8 +35,8 @@ export default {
         'zw-cream': '#F7F6F3',
         'zw-ink': '#1D1D1F',
         'zw-forest': '#1D1D1F',
-        'zw-teal': '#E04530',
-        'zw-rust': '#C2410C',
+        'zw-teal': '#C83A25',
+        'zw-rust': '#A93409',
         'zw-card': '#FFFFFF',
         'zw-border': 'rgba(0,0,0,0.10)',
         'zw-muted': '#5D5D63',
